@@ -1,0 +1,10 @@
+SELECT Doctor, Professor, Singer, Actor  
+FROM  
+(
+  SELECT ROW_NUMBER() OVER (PARTITION BY occupation ORDER BY name) as rn, Name, Occupation    
+  FROM OCCUPATIONS 
+) AS SourceTable  
+PIVOT  
+(  max(Name)
+    FOR Occupation IN (Doctor, Professor, Singer, Actor )  
+) AS PivotTable;
